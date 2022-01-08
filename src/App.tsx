@@ -1,26 +1,69 @@
-import React from 'react';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import logo from './logo.svg';
 import './App.css';
+import type {RootState, Dispatch} from './general/store/rootTypes';
+import {MovieListItem} from './general/store/moviesStore/moviesStore-type';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+type ActionProps = {
+  fetchMovieList: () => void;
+};
+
+type StateProps = {
+  movieList: Array<MovieListItem>;
+};
+
+type Props = ActionProps & StateProps & {};
+
+// type State = {
+
+// };
+
+class App extends Component<Props> {
+  componentDidMount() {
+    let {fetchMovieList} = this.props;
+    fetchMovieList();
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <p>
+            Edit <code>src/App.tsx</code> and save to hohoh0.
+          </p>
+          <a
+            className="App-link"
+            href="https://reactjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn React
+          </a>
+        </header>
+      </div>
+    );
+  }
 }
 
-export default App;
+let mapStateToProps = (state: RootState): StateProps => {
+  let {movies} = state;
+  let {movieList} = movies;
+  return {
+    movieList,
+  };
+};
+
+let mapDispatchToProps = (dispatch: Dispatch): ActionProps => {
+  return {
+    fetchMovieList: () => {
+      console.log('Dispatch');
+      dispatch({
+        type: 'FETCH_MOVIE_LIST_REQUESTED',
+      });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
