@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import logo from './logo.svg';
 import './App.css';
-import type {RootState, Dispatch} from './general/store/rootTypes';
-import {MovieListItem} from './general/store/moviesStore/moviesStore-type';
+import type {RootState, Dispatch} from '../../store/rootTypes';
+import {MovieListItem} from '../../store/moviesStore/moviesStore-type';
 
 type ActionProps = {
   fetchMovieList: () => void;
@@ -19,7 +19,7 @@ type Props = ActionProps & StateProps & {};
 
 // };
 
-class App extends Component<Props> {
+class MovieList extends Component<Props> {
   componentDidMount() {
     let {fetchMovieList} = this.props;
     fetchMovieList();
@@ -31,7 +31,7 @@ class App extends Component<Props> {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
-            Edit <code>src/App.tsx</code> and save to hohoh0.
+            Edit <code>src/App.tsx</code> and save to hohoho.
           </p>
           <a
             className="App-link"
@@ -66,4 +66,4 @@ let mapDispatchToProps = (dispatch: Dispatch): ActionProps => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(MovieList);
