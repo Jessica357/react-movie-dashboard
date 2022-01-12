@@ -42,19 +42,11 @@ export default function MovieDesc(props: Props) {
         isModalShow={isModalShow}
         onCloseModal={() => onCloseModal()}
       >
-        <div style={{maxWidth: 737, paddingLeft: 20, paddingRight: 20}}>
-          <div style={{width: '100%', textAlign: 'center', marginBottom: 50}}>
+        <div style={styles.modalContainer}>
+          <div style={{maxWidth: '737', textAlign: 'center', marginBottom: 50}}>
             <Image src={Poster} style={{height: 400, maxWidth: '100%'}} />
           </div>
-          <Text
-            style={{
-              fontWeight: 'bold',
-              fontSize: '20px',
-              fontFamily: 'PT Sans',
-            }}
-          >
-            {Title}
-          </Text>
+          <Text style={styles.titleText}>{Title}</Text>
           <div style={styles.flexRow}>
             <Text style={styles.contentKey}>Year</Text>
             <Text style={styles.contentColon}>:</Text>
@@ -153,4 +145,19 @@ const styles: StyleSheet = {
   contentKey: {flex: 2, fontSize: '14px', fontFamily: 'PT Sans'},
   contentColon: {flex: 0.2, fontSize: '14px', fontFamily: 'PT Sans'},
   contentValue: {flex: 7, fontSize: '14px', fontFamily: 'PT Sans'},
+  modalContainer: {
+    maxWidth: '100%',
+    paddingLeft: '20',
+    paddingRight: '20',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  titleText: {
+    fontWeight: 'bold',
+    fontSize: '20px',
+    fontFamily: 'PT Sans',
+    textAlign: 'left',
+  },
 };
