@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {CSSTransition} from 'react-transition-group';
 import debounce from 'lodash.debounce';
+import {Spinner} from 'react-bootstrap';
 
 import './MovieList.css';
 import ModalDesc from './MovieDesc';
@@ -88,14 +89,20 @@ class MovieList extends Component<Props> {
   };
 
   render() {
-    let {isLoading, movieDetails, isSearchFieldVisible} = this.props;
+    let {
+      isLoading,
+      movieDetails,
+      isSearchFieldVisible,
+      activeTab,
+      myFavorites,
+    } = this.props;
     let {isShowMovieDesc} = this.state;
     let onChangeSearchText = (event: any) => {
       this.setState({searchText: event.target.value});
       event && this.onChangeDebounced(event);
     };
     return (
-      <div className="App">
+      <div style={{width: '100%'}}>
         <body style={{display: 'flex', flexDirection: 'row'}}>
           <div style={styles.shared.rootContainer}>
             {isSearchFieldVisible && (
@@ -109,9 +116,12 @@ class MovieList extends Component<Props> {
                 />
               </div>
             )}
-
-            {this._renderMovieListHeader()}
-            {!isLoading && this._renderMovieListContent()}
+            {activeTab === 'favorites' && !myFavorites[0]
+              ? this._renderNoFavorites()
+              : this._renderMovieListHeader()}
+            {isLoading
+              ? this._renderIsLoading()
+              : this._renderMovieListContent()}
             {!isLoading && movieDetails && (
               <ModalDesc
                 movieDetails={movieDetails}
@@ -128,19 +138,7 @@ class MovieList extends Component<Props> {
   _renderMovieListHeader = () => {
     return (
       <div style={styles.shared.root}>
-        <div
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            alignSelf: 'flex-end',
-            display: 'grid',
-            gridTemplate: '1fr / 2fr 0.5fr 0.5fr 0.5fr',
-            gridGap: 20,
-            marginBottom: 0,
-            paddingTop: 10,
-          }}
-        >
+        <div style={styles.shared.headerContainer}>
           <Text>TITLE</Text>
           <Text>YEAR</Text>
           {this.props.activeTab === 'searchMovie' ? (
@@ -148,6 +146,27 @@ class MovieList extends Component<Props> {
           ) : (
             <Text>LANGUAGE</Text>
           )}
+        </div>
+      </div>
+    );
+  };
+
+  _renderIsLoading = () => {
+    return (
+      <div style={styles.shared.root}>
+        <div style={styles.shared.spinnerContainer}>
+          <Spinner animation="border" />
+        </div>
+      </div>
+    );
+  };
+
+  _renderNoFavorites = () => {
+    return (
+      <div style={styles.shared.contentRoot}>
+        <div style={styles.shared.noFavorites}>
+          <Text style={{fontSize: '100px'}}>🐣</Text>
+          <Text style={{fontSize: '18px'}}>No Favorites Yet</Text>
         </div>
       </div>
     );
@@ -177,71 +196,81 @@ class MovieList extends Component<Props> {
       updateMyFavorites(myFavorites, id);
       event.stopPropagation();
     };
-    return (
-      <div style={styles.shared.contentRoot}>
-        {movies.map((movie, index) => {
-          let delayTime = index + 1 * 100;
-          if (
-            activeTab === 'searchMovie' ||
-            myFavorites.includes(movie.imdbID)
-          ) {
-            return (
-              <CSSTransition
-                in={true}
-                appear={true}
-                timeout={2000}
-                classNames="list"
-                unmountOnExit
-                onExited={() => fetchMovieList(page + 1)}
-              >
-                <div
-                  style={{
-                    minHeight: 50,
-                    backgroundColor: WHITE,
-                    borderRadius: 5,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    display: 'grid',
-                    gridTemplate: '1fr / 2fr 0.5fr 0.5fr 0.5fr',
-                    gridGap: 20,
-                    marginTop: 5,
-                    // marginBottom: 0,
-                    // paddingTop: 10,
-                    paddingLeft: 30,
-                    transitionDelay: `${delayTime}ms`,
-                  }}
-                  onClick={() => onSelectMovie(movie.imdbID)}
+    if (!movies[0]) {
+      return (
+        <div style={styles.shared.contentRoot}>
+          <div style={styles.shared.notFound}>
+            <Text>{`No results found for "${searchText}"`}</Text>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div style={styles.shared.contentRoot}>
+          {movies.map((movie, index) => {
+            let delayTime = index + 1 * 100;
+            if (movies.length === 0) {
+              return <Text>Movie not found</Text>;
+            } else if (
+              activeTab === 'searchMovie' ||
+              myFavorites.includes(movie.imdbID)
+            ) {
+              return (
+                <CSSTransition
+                  in={true}
+                  appear={true}
+                  timeout={2000}
+                  classNames="list"
+                  unmountOnExit
+                  onExited={() => fetchMovieList(page + 1)}
                 >
-                  <Text>{movie.Title}</Text>
-                  <Text>{movie.Year}</Text>
-                  {activeTab === 'searchMovie' ? (
-                    <Text>{movie.imdbID}</Text>
-                  ) : (
-                    <Text>English</Text>
-                  )}
                   <div
-                    style={{width: 'fit-content'}}
-                    onClick={(event) =>
-                      onChangeFavorite(event, myFavorites, movie.imdbID)
-                    }
+                    style={{
+                      minHeight: 50,
+                      backgroundColor: WHITE,
+                      borderRadius: 5,
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      display: 'grid',
+                      gridTemplate: '1fr / 2fr 0.5fr 0.5fr 0.5fr',
+                      gridGap: 20,
+                      marginTop: 5,
+                      paddingLeft: 30,
+                      transitionDelay: `${delayTime}ms`,
+                    }}
+                    onClick={() => onSelectMovie(movie.imdbID)}
                   >
-                    <FavoriteToggle
-                      id={movie.imdbID}
-                      // onSelect={(event) =>
-                      //   onChangeFavorite(event, myFavorites, movie.imdbID)
-                      // }
-                    />
+                    <Text>{movie.Title}</Text>
+                    <Text>{movie.Year}</Text>
+                    {activeTab === 'searchMovie' ? (
+                      <Text>{movie.imdbID}</Text>
+                    ) : (
+                      <Text>English</Text>
+                    )}
+                    <div
+                      style={{width: 'fit-content'}}
+                      onClick={(event) =>
+                        onChangeFavorite(event, myFavorites, movie.imdbID)
+                      }
+                    >
+                      <FavoriteToggle
+                        id={movie.imdbID}
+                        // onSelect={(event) =>
+                        //   onChangeFavorite(event, myFavorites, movie.imdbID)
+                        // }
+                      />
+                    </div>
                   </div>
-                </div>
-              </CSSTransition>
-            );
-          } else {
-            return null;
-          }
-        })}
-      </div>
-    );
+                </CSSTransition>
+              );
+            } else {
+              return null;
+            }
+          })}
+        </div>
+      );
+    }
   };
 }
 
@@ -315,6 +344,44 @@ const styles: {[key: string]: {[key: string]: React.CSSProperties}} = {
       marginTop: 5,
       marginLeft: 50,
       marginRight: 50,
+    },
+    headerContainer: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      alignSelf: 'flex-end',
+      display: 'grid',
+      gridTemplate: '1fr / 2fr 0.5fr 0.5fr 0.5fr',
+      gridGap: 20,
+      marginBottom: 0,
+      paddingTop: 10,
+    },
+    notFound: {
+      minHeight: 50,
+      backgroundColor: WHITE,
+      borderRadius: 5,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      display: 'grid',
+      marginTop: 5,
+    },
+    noFavorites: {
+      minHeight: '90vh',
+      backgroundColor: LIGHTEST_GREY,
+      justifyContent: 'center',
+      alignItems: 'center',
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    spinnerContainer: {
+      minHeight: 50,
+      borderRadius: 5,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      display: 'grid',
+      marginTop: 5,
     },
   },
   desktop: {

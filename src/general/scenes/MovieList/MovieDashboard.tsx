@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Tabs, Tab} from 'react-bootstrap';
-// import logo from './logo.svg';
+
 import './MovieDashboard.css';
 import {MovieList} from './components';
 import type {RootState, Dispatch} from '../../store/rootTypes';
@@ -17,16 +17,7 @@ type StateProps = {
 
 type Props = ActionProps & StateProps & {};
 
-// type State = {
-
-// };
-
 class MovieDashboard extends Component<Props> {
-  // componentDidMount() {
-  //   let {fetchMovieList} = this.props;
-  //   fetchMovieList();
-  // }
-
   render() {
     return (
       <Tabs defaultActiveKey="searchMovie">
