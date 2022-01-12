@@ -1,4 +1,3 @@
-import MovieList from './MovieList/MovieList';
-import Favorites from './Favorites/Favorites';
+import MovieDashboard from './MovieList/MovieDashboard';
 
-export {MovieList, Favorites};
+export {MovieDashboard};

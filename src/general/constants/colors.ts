@@ -1,0 +1,57 @@
+// Please keep this sorted out
+const BACKDROP_TRANSPARENT = 'rgba(51, 51, 51, 0.3)';
+const BACKGROUND_GREY = '#F5F6FA';
+const BACKGROUND_DARK_GREY = '#f1f1f1';
+const BLACK = '#000000';
+const BORDER_GREY = '#E6E9EE';
+const BORDER_GREY_LIGHT = '#eeeeee';
+const DARK_GREY = '#909AA3';
+const DARKER_GREY = '#333333';
+const FAINT_BLACK = 'rgba(0, 0, 0, 0.38)';
+const FORM_GREY = '#dddddd';
+const FORM_RED = '#ff6969';
+const GREY = '#A5AEB6';
+const HOVERED_DEFAULT_BUTTON = '#eff0f1';
+const HOVERED_MAIN_COLOR = '#070738';
+const HOVERED_RED = '#c92c24';
+const LIGHTER_GREY = '#E6E9EE';
+const LIGHTEST_GREY = '#F7F7FA';
+const LIGHT_GREEN = '#48C5C3';
+const LIGHT_GREY = '#E1E4EC';
+const MAIN_COLOR = '#0C2C5E';
+const RED = '#EB352C';
+const SHADOW = 'rgba(0,0,0,0.2)';
+const SOFT_BLACK = 'rgba(0, 0, 0, 0.6)';
+const STAR_ACTIVE = '#f5a623';
+const TRANSPARENT = '#0000';
+const WHITE = '#FFFFFF';
+
+export {
+  BACKDROP_TRANSPARENT,
+  BACKGROUND_DARK_GREY,
+  BACKGROUND_GREY,
+  BLACK,
+  BORDER_GREY,
+  BORDER_GREY_LIGHT,
+  DARK_GREY,
+  DARKER_GREY,
+  FAINT_BLACK,
+  FORM_GREY,
+  FORM_RED,
+  GREY as TEXT_GREY,
+  GREY,
+  HOVERED_DEFAULT_BUTTON,
+  HOVERED_MAIN_COLOR,
+  HOVERED_RED,
+  LIGHTER_GREY,
+  LIGHTEST_GREY,
+  LIGHT_GREEN,
+  LIGHT_GREY,
+  MAIN_COLOR as TEXT_MAIN,
+  RED,
+  SHADOW,
+  SOFT_BLACK,
+  STAR_ACTIVE,
+  TRANSPARENT,
+  WHITE,
+};

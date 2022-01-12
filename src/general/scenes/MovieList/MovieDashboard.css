@@ -1,0 +1,23 @@
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+  color: #0c2c5e;
+  background-color: #fff;
+  border: none;
+  font-weight: bold;
+}
+
+.nav-tabs .nav-link {
+  color: gray;
+}
+
+.nav-tabs {
+  border: none;
+  font-family: 'PT Sans';
+  font-size: large;
+}
+
+.nav-tabs .nav-link:hover {
+  color: gray;
+  font-weight: bold;
+  border: none;
+}

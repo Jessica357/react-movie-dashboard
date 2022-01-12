@@ -1,9 +1,9 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react';
-import Favorites from './Favorites';
+import MovieDashboard from './MovieDashboard';
 
 test('renders learn react link', () => {
-  render(<Favorites />);
+  render(<MovieDashboard />);
   const linkElement = screen.getByText(/learn react/i);
   expect(linkElement).toBeInTheDocument();
 });
